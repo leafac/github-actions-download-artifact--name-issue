@@ -11,13 +11,26 @@ jobs:
           name: a-different-name.tgz
           path: file.tgz
 
-  consumer:
+  consumer--no-path:
     needs: producer
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: a-different-name.tgz
+      - run: |
+          find .
+          tar -xzf a-different-name.tgz
+          find .
+
+  consumer--with-path:
+    needs: producer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: a-different-name.tgz
+          path: a-different-name.tgz
       - run: |
           find .
           tar -xzf a-different-name.tgz
